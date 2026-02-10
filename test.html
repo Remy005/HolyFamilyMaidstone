@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Test</title>
+</head>
+<body>
+    <h1>Testing CAOS.png Loading</h1>
+    
+    <h2>Method 1: Direct path</h2>
+    <img src="CAOS.png" alt="Test 1" style="max-width: 300px;">
+    
+    <h2>Method 2: With ./</h2>
+    <img src="./CAOS.png" alt="Test 2" style="max-width: 300px;">
+    
+    <h2>Method 3: Absolute from root</h2>
+    <img src="/CAOS.png" alt="Test 3" style="max-width: 300px;">
+    
+    <script>
+        document.querySelectorAll('img').forEach((img, index) => {
+            img.onload = () => console.log(`Image ${index + 1} loaded`);
+            img.onerror = () => console.log(`Image ${index + 1} failed`);
+        });
+    </script>
+</body>
+</html>
