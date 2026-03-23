@@ -1299,7 +1299,7 @@
         }
     }
     
-   // Function to continue PDF generation after image is loaded (or not)
+// Function to continue PDF generation after image is loaded (or not)
 function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
     // Add header
     doc.setFontSize(20);
@@ -1318,7 +1318,79 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
     doc.line(20, yPos, pageWidth - 20, yPos);
     yPos += 10;
     
-    // Information for Hirers
+    // ========== HIRER DETAILS SECTION (MOVED TO TOP) ==========
+    doc.setFontSize(14);
+    doc.setTextColor(44, 62, 80);
+    doc.text('HIRER DETAILS', 20, yPos);
+    yPos += 10;
+    
+    doc.setFontSize(10);
+    doc.setTextColor(0, 0, 0);
+    
+    // Display hirer information
+    doc.text(`Full Name: ${formData.fullName}`, 20, yPos);
+    yPos += 7;
+    doc.text(`Organization: ${formData.organization || 'N/A'}`, 20, yPos);
+    yPos += 7;
+    doc.text(`Email: ${formData.email}`, 20, yPos);
+    yPos += 7;
+    doc.text(`Phone: ${formData.phone}`, 20, yPos);
+    yPos += 7;
+    doc.text(`House Number / Name: ${formData.houseNumber}`, 20, yPos);
+    yPos += 7;
+    doc.text(`Street Name: ${formData.streetName}`, 20, yPos);
+    yPos += 7;
+    doc.text(`Town / City: ${formData.town}`, 20, yPos);
+    yPos += 7;
+    doc.text(`Postcode: ${formData.postcode}`, 20, yPos);
+    yPos += 10;
+    doc.text(`Hire Date: ${formData.hireDate}`, 20, yPos);
+    yPos += 7;
+    doc.text(`Hire Time: ${formData.hireTimeFrom} to ${formData.hireTimeTo}`, 20, yPos);
+    yPos += 10;
+    doc.text(`Purpose: ${formData.purpose}`, 20, yPos);
+    yPos += 7;
+    doc.text(`Estimated Attendees: ${formData.attendees}`, 20, yPos);
+    yPos += 15;
+    
+    // ========== FIRST SIGNATURE (WITH HIRER DETAILS) ==========
+    if (formData.signatureData && formData.signatureData.startsWith('data:image')) {
+        try {
+            doc.text("Digital Signature of Hirer:", 20, yPos);
+            yPos += 8;
+            
+            const signatureWidth = 80;
+            const signatureHeight = 30;
+            doc.addImage(formData.signatureData, 'PNG', 20, yPos, signatureWidth, signatureHeight);
+            yPos += signatureHeight + 10;
+            
+            doc.text(`Signed by: ${formData.fullName}`, 20, yPos);
+            yPos += 8;
+            doc.text(`Date: ${new Date().toLocaleDateString('en-GB')}`, 20, yPos);
+            yPos += 8;
+            doc.text(`Time: ${new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}`, 20, yPos);
+            yPos += 15;
+        } catch (e) {
+            console.log("Error adding signature image:", e.message);
+            doc.text("Signed (Hirer): ___________________________", 20, yPos);
+            yPos += 8;
+            doc.text("Date: ___________________________", 20, yPos);
+            yPos += 15;
+        }
+    } else {
+        doc.text("Signed (Hirer): ___________________________", 20, yPos);
+        yPos += 8;
+        doc.text("Date: ___________________________", 20, yPos);
+        yPos += 15;
+    }
+    
+    // Add separator line
+    doc.setDrawColor(44, 62, 80);
+    doc.setLineWidth(0.5);
+    doc.line(20, yPos, pageWidth - 20, yPos);
+    yPos += 15;
+    
+    // ========== INFORMATION FOR HIRERS SECTION (MOVED AFTER HIRER DETAILS) ==========
     doc.setFontSize(14);
     doc.setTextColor(44, 62, 80);
     doc.text('INFORMATION FOR HIRERS', 20, yPos);
@@ -1354,53 +1426,6 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
         yPos += 6;
     });
     
-    yPos += 10;
-    
-    // Add hirer details section in two-column format
-    doc.setFontSize(14);
-    doc.setTextColor(44, 62, 80);
-    doc.text('HIRER DETAILS', 20, yPos);
-    yPos += 10;
-    
-    doc.setFontSize(10);
-    doc.setTextColor(0, 0, 0);
-    
-    // Two-column layout
-    const columnWidth = (pageWidth - 60) / 2; // 60 = left margin + middle gap + right margin
-    const leftColumnX = 20;
-    const rightColumnX = leftColumnX + columnWidth + 20;
-    
-    // Combine address from split fields
-    const fullAddress = `${formData.houseNumber} ${formData.streetName}, ${formData.town}`;
-    
-    // Left column details
-    doc.text(`Full Name: ${formData.fullName}`, leftColumnX, yPos);
-    doc.text(`Email: ${formData.email}`, leftColumnX, yPos + 7);
-    doc.text(`Address: ${fullAddress}`, leftColumnX, yPos + 14);
-    doc.text(`Hire Date: ${formData.hireDate}`, leftColumnX, yPos + 21);
-    
-    // Right column details
-    doc.text(`Organization: ${formData.organization || 'N/A'}`, rightColumnX, yPos);
-    doc.text(`Phone: ${formData.phone}`, rightColumnX, yPos + 7);
-    doc.text(`Postcode: ${formData.postcode}`, rightColumnX, yPos + 14);
-    doc.text(`Hire Time: ${formData.hireTimeFrom} to ${formData.hireTimeTo}`, rightColumnX, yPos + 21);
-    
-    yPos += 28;
-    
-    // Purpose (spans both columns)
-    const purposeText = `Purpose: ${formData.purpose}`;
-    const purposeLines = doc.splitTextToSize(purposeText, pageWidth - 40);
-    purposeLines.forEach(line => {
-        if (yPos > pageHeight - 20) {
-            doc.addPage();
-            yPos = 20;
-        }
-        doc.text(line, 20, yPos);
-        yPos += 7;
-    });
-    
-    // Attendees (spans both columns)
-    doc.text(`Estimated Attendees: ${formData.attendees}`, 20, yPos);
     yPos += 10;
     
     // Add line separator
@@ -1480,7 +1505,7 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
         }
     });
     
-    // Add signature page
+    // ========== SECOND SIGNATURE PAGE (AT THE END) ==========
     doc.addPage();
     yPos = 40;
     
@@ -1512,7 +1537,7 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
     
     yPos += 20;
     
-    // Add signature if available
+    // ========== SECOND DIGITAL SIGNATURE (AT THE END) ==========
     if (formData.signatureData && formData.signatureData.startsWith('data:image')) {
         try {
             doc.text("Digital Signature of Hirer:", 20, yPos);
@@ -1529,14 +1554,21 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
             doc.text(`Date: ${new Date().toLocaleDateString('en-GB')}`, 20, yPos);
             yPos += 8;
             doc.text(`Time: ${new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}`, 20, yPos);
+            yPos += 15;
             
-            console.log('Signature added to PDF successfully');
+            console.log('Second signature added to PDF successfully');
         } catch (e) {
             console.log("Error adding signature image:", e.message);
             doc.text("Signed (Hirer): ___________________________", 20, yPos);
             yPos += 8;
             doc.text("Date: ___________________________", 20, yPos);
+            yPos += 8;
         }
+    } else {
+        doc.text("Signed (Hirer): ___________________________", 20, yPos);
+        yPos += 8;
+        doc.text("Date: ___________________________", 20, yPos);
+        yPos += 8;
     }
     
     yPos += 20;
@@ -1570,107 +1602,6 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
     console.log('PDF generated successfully:', fileName);
     alert(`PDF generated successfully: ${fileName}\n\nPlease save this document and return it to the Parish Priest for final approval and signing.`);
 }
-
-// Form submission handler (UPDATED)
-document.getElementById('agreementForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // UPDATED: Basic validation - replaced 'address' with split fields
-    const requiredFields = ['fullName', 'email', 'phone', 'houseNumber', 'streetName', 'town', 'postcode', 'hireDate', 'hireTimeFrom', 'hireTimeTo', 'purpose', 'attendees'];
-    for (const field of requiredFields) {
-        const element = document.getElementById(field);
-        if (!element.value.trim()) {
-            alert(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()} field.`);
-            element.focus();
-            return;
-        }
-    }
-    
-    // Check purpose length
-    const purpose = document.getElementById('purpose').value;
-    if (purpose.length > 300) {
-        alert('Purpose of hire must be 300 characters or less.');
-        document.getElementById('purpose').focus();
-        return;
-    }
-    
-    // Checkbox validation
-    if (!document.getElementById('ageConfirm').checked || !document.getElementById('termsConfirm').checked) {
-        alert('Please confirm that you are over 18 and agree to the terms.');
-        return;
-    }
-    
-    // Check signature
-    const signatureData = document.getElementById('signatureData').value;
-    
-    if (!signatureData || signatureData.trim() === '') {
-        alert('Please provide your signature by signing in the box above and clicking "Confirm Signature".');
-        document.getElementById('signatureCanvas').scrollIntoView({ behavior: 'smooth' });
-        return;
-    }
-    
-    if (!signatureConfirmed) {
-        alert('Please click "Confirm Signature" button to save your signature.');
-        return;
-    }
-    
-    // Check if signature data is valid base64 image
-    if (!signatureData.startsWith('data:image')) {
-        alert('Signature appears to be invalid. Please clear and sign again.');
-        return;
-    }
-    
-    // UPDATED: Collect form data with split address fields
-    const formData = {
-        fullName: document.getElementById('fullName').value,
-        organization: document.getElementById('organization').value || '',
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        houseNumber: document.getElementById('houseNumber').value,
-        streetName: document.getElementById('streetName').value,
-        town: document.getElementById('town').value,
-        postcode: document.getElementById('postcode').value,
-        hireDate: document.getElementById('hireDate').value,
-        hireTimeFrom: document.getElementById('hireTimeFrom').value,
-        hireTimeTo: document.getElementById('hireTimeTo').value,
-        purpose: purpose,
-        attendees: document.getElementById('attendees').value,
-        signatureData: signatureData
-    };
-    
-    console.log('Form data collected, generating PDF...');
-    generatePDF(formData);
-});
-
-// Initialize total sections count
-document.getElementById('total-sections').textContent = totalSections;
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize purpose counter
-    const purposeField = document.getElementById('purpose');
-    const counter = document.getElementById('purpose-counter');
-    if (purposeField && counter) {
-        counter.textContent = `${purposeField.value.length}/300`;
-    }
-    
-    // Set minimum date for hire date to today
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('hireDate').min = today;
-    
-    // Check if image loads
-    const img = document.getElementById('church-logo');
-    if (img) {
-        img.onload = function() {
-            console.log('Logo image loaded successfully');
-        };
-        
-        img.onerror = function() {
-            console.log('Logo image failed to load, trying alternative path');
-            this.src = './CAOS.png';
-        };
-    }
-});
 </script>
 
 </body>
