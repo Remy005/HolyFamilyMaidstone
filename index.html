@@ -6,11 +6,11 @@
     <title>Holy Family Church Hall Hire Agreement</title>
     <!-- Add the logo image first to preload -->
     <link rel="preload" as="image" href="CAOS.png">
-
+    
     <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/4.1.6/signature_pad.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
+    
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -21,14 +21,14 @@
             --success-color: #27ae60;
             --warning-color: #f39c12;
         }
-
+        
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
             background-color: #f5f7fa;
             color: #333;
@@ -37,7 +37,7 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-
+        
         .container {
             background-color: white;
             border-radius: 10px;
@@ -45,19 +45,19 @@
             padding: 30px;
             margin-bottom: 30px;
         }
-
+        
         .header {
             text-align: center;
             padding-bottom: 20px;
             border-bottom: 2px solid var(--primary-color);
             margin-bottom: 30px;
         }
-
+        
         .logo-container {
             text-align: center;
             margin-bottom: 20px;
         }
-
+        
         #church-logo {
             max-width: 300px;
             height: auto;
@@ -67,17 +67,17 @@
             padding: 5px;
             background-color: white;
         }
-
+        
         .header h1 {
             color: var(--primary-color);
             margin-bottom: 10px;
         }
-
+        
         .header h2 {
             color: var(--secondary-color);
             margin-bottom: 15px;
         }
-
+        
         .info-box {
             background-color: #e8f4fd;
             border-left: 4px solid var(--secondary-color);
@@ -85,14 +85,14 @@
             margin-bottom: 30px;
             border-radius: 5px;
         }
-
+        
         .progress-container {
             margin: 30px 0;
             background-color: var(--light-color);
             border-radius: 10px;
             padding: 20px;
         }
-
+        
         .progress-bar {
             height: 10px;
             background-color: #ddd;
@@ -100,20 +100,20 @@
             margin: 10px 0 20px 0;
             overflow: hidden;
         }
-
+        
         .progress-fill {
             height: 100%;
             background-color: var(--secondary-color);
             width: 0%;
             transition: width 0.5s ease;
         }
-
+        
         .progress-text {
             display: flex;
             justify-content: space-between;
             font-weight: bold;
         }
-
+        
         .section {
             margin-bottom: 40px;
             padding: 20px;
@@ -122,19 +122,19 @@
             border-left: 4px solid var(--primary-color);
             transition: all 0.3s ease;
         }
-
+        
         .section.completed {
             border-left-color: var(--success-color);
             background-color: #e8f5e9;
         }
-
+        
         .section h2 {
             color: var(--primary-color);
             margin-bottom: 15px;
             padding-bottom: 10px;
             border-bottom: 1px solid #ddd;
         }
-
+        
         .section-content {
             max-height: 300px;
             overflow-y: auto;
@@ -144,44 +144,44 @@
             border: 1px solid #eee;
             margin-bottom: 15px;
         }
-
+        
         .section-content p {
             margin-bottom: 10px;
         }
-
+        
         .section-content .sub-clause {
             margin-left: 20px;
             margin-bottom: 8px;
         }
-
+        
         .section-content .sub-sub-clause {
             margin-left: 40px;
             margin-bottom: 6px;
         }
-
+        
         .read-confirm {
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
-
+        
         .checkbox-container {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
+        
         .checkbox-container input[type="checkbox"] {
             width: 20px;
             height: 20px;
             cursor: pointer;
         }
-
+        
         .checkbox-container label {
             font-weight: bold;
             cursor: pointer;
         }
-
+        
         .section-number {
             background-color: var(--primary-color);
             color: white;
@@ -189,7 +189,7 @@
             border-radius: 4px;
             font-size: 0.9em;
         }
-
+        
         .user-details-form {
             display: none;
             margin-top: 30px;
@@ -198,18 +198,18 @@
             border-radius: 10px;
             border: 2px solid var(--secondary-color);
         }
-
+        
         .form-group {
             margin-bottom: 20px;
         }
-
+        
         .form-group label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
             color: var(--primary-color);
         }
-
+        
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 10px 15px;
@@ -217,17 +217,17 @@
             border-radius: 5px;
             font-size: 16px;
         }
-
+        
         .form-row {
             display: flex;
             gap: 20px;
             margin-bottom: 20px;
         }
-
+        
         .form-col {
             flex: 1;
         }
-
+        
         .btn {
             padding: 12px 25px;
             background-color: var(--secondary-color);
@@ -239,37 +239,37 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
+        
         .btn:hover {
             background-color: #2980b9;
         }
-
+        
         .btn-success {
             background-color: var(--success-color);
         }
-
+        
         .btn-success:hover {
             background-color: #219653;
         }
-
+        
         .btn-warning {
             background-color: var(--warning-color);
         }
-
+        
         .btn-warning:hover {
             background-color: #e67e22;
         }
-
+        
         .btn:disabled {
             background-color: #bdc3c7;
             cursor: not-allowed;
         }
-
+        
         .btn-container {
             text-align: center;
             margin-top: 30px;
         }
-
+        
         .notice {
             background-color: #fff3cd;
             border: 1px solid #ffeaa7;
@@ -278,7 +278,7 @@
             border-radius: 5px;
             margin-bottom: 20px;
         }
-
+        
         .warning {
             background-color: #fde8e8;
             border: 1px solid #f5c6cb;
@@ -287,7 +287,7 @@
             border-radius: 5px;
             margin-bottom: 20px;
         }
-
+        
         /* Signature Canvas Styles */
         #signatureCanvas {
             cursor: crosshair;
@@ -297,61 +297,61 @@
             width: 100%;
             height: 150px;
         }
-
+        
         .signature-status {
             margin-top: 5px;
             font-size: 0.9em;
         }
-
+        
         .signature-status.signed {
             color: var(--success-color);
         }
-
+        
         .signature-status.unsigned {
             color: var(--warning-color);
         }
-
+        
         .character-counter {
             text-align: right;
             font-size: 0.9em;
             margin-top: 5px;
             color: #666;
         }
-
+        
         .character-counter.near-limit {
             color: var(--warning-color);
         }
-
+        
         .character-counter.at-limit {
             color: var(--accent-color);
             font-weight: bold;
         }
-
+        
         .signature-buttons {
             display: flex;
             gap: 10px;
             margin-top: 10px;
             align-items: center;
         }
-
+        
         @media (max-width: 768px) {
             .form-row {
                 flex-direction: column;
                 gap: 0;
             }
-
+            
             .section-content {
                 max-height: 200px;
             }
-
+            
             #signatureCanvas {
                 height: 100px;
             }
-
+            
             .signature-buttons {
                 flex-direction: column;
             }
-
+            
             .signature-buttons button {
                 width: 100%;
             }
@@ -369,7 +369,7 @@
             <h2>PARISH PROPERTY AT HOLY FAMILY CATHOLIC CHURCH, PARKWOOD, MAIDSTONE</h2>
             <p>Please read each section carefully and confirm you've read them before proceeding</p>
         </div>
-
+        
         <div class="info-box">
             <h3>INFORMATION FOR HIRERS</h3>
             <p>Parish property is primarily for use in conjunction with the Church and its services, including baptisms, weddings, and funerals. It is available for use by groups associated with the Parish or for other purposes at the discretion of the Parish Priest.</p>
@@ -379,7 +379,7 @@
             <p><strong>Hire Fees:</strong> The hire fees are as set out in the Hire Agreement. For private bookings, a deposit of £150 is required at the time of booking. The deposit will be returned in full within two weeks after use of the Hall. If additional cleaning of the Hall is required £100 will be deducted from the deposit to pay for the cleaning.</p>
             <p><strong>Payment:</strong> Full payment of the hire fee is due 28 days before the date of hire, or immediately upon signing the Hire Agreement if the hire period is less than 28 days from the booking. Cancellation fees may be payable in the event of a cancellation, as set out in the Conditions of Hire.</p>
         </div>
-
+        
         <div class="progress-container">
             <div class="progress-text">
                 <span>Progress: <span id="progress-percent">0%</span></span>
@@ -389,7 +389,7 @@
                 <div class="progress-fill" id="progress-fill"></div>
             </div>
         </div>
-
+        
         <form id="agreementForm">
             <!-- Section 1 -->
             <div class="section" id="section-1">
@@ -422,13 +422,13 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Section 2: Car Park Vehicle Registration -->
             <div class="section" id="section-2">
                 <h2><span class="section-number">Section 2</span> CAR PARK VEHICLE REGISTRATION</h2>
                 <div class="section-content">
                     <p>The Hirer acknowledges and agrees to the following conditions regarding the use of the church hall car park:</p>
-
+                    
                     <p><strong>2.1 Mandatory Vehicle Registration</strong></p>
                     <div class="sub-clause">
                         <p><strong>2.1.1 Upon Arrival:</strong> The Hirer must, at the start of each hiring session, register the vehicle registration number of every vehicle that will be using the Holy Family Church Hall parking lot.</p>
@@ -436,20 +436,20 @@
                         <p><strong>2.1.3 Registration Method:</strong> Registration must be completed using the electronic tablet(s) provided inside the hall, mounted on the wall near the kitchen. The Hirer must follow all on-screen instructions to complete the process successfully.</p>
                         <p><strong>2.1.4 Re-registration Required:</strong> Vehicle details must be re-registered for every separate hiring session. A single registration does not cover multiple or future bookings.</p>
                     </div>
-
+                    
                     <p><strong>2.2 Compliance and Enforcement</strong></p>
                     <div class="sub-clause">
                         <p><strong>2.2.1 ANPR Monitoring:</strong> The car park is monitored by Automatic Number Plate Recognition (ANPR) cameras operated by Creative Car Park on behalf of the Parish.</p>
                         <p><strong>2.2.2 Penalty Charges:</strong> Any vehicle present in the lot during the Hirer's booking period that has not been registered via the tablet system (including those only picking up or dropping off) may be issued a Penalty Charge Notice (PCN) by Creative Car Park.</p>
                     </div>
-
+                    
                     <p><strong>2.3 Hirer's Responsibilities and Liabilities</strong></p>
                     <div class="sub-clause">
                         <p><strong>2.3.1</strong> The Hirer is responsible for informing all their guests, members, contractors, and other persons attending the Premises in connection with the hire of this mandatory registration process.</p>
                         <p><strong>2.3.2</strong> The Parish is not liable for any PCNs issued to the Hirer or their attendees due to a failure to register vehicle details correctly or at all.</p>
                         <p><strong>2.3.3 PCN Disputes:</strong> Any Penalty Charge Notices issued must be dealt with directly between the vehicle owner and Creative Car Park. The Parish is not involved in the administration, enforcement, or appeal process for parking penalties and cannot assist with any disputes or queries.</p>
                     </div>
-
+                    
                     <p><strong>2.4 Reporting Technical Issues</strong></p>
                     <div class="sub-clause">
                         <p><strong>2.4.1</strong> If the Hirer encounters any technical issues with the registration tablet (e.g., it is not functioning, unresponsive, or missing), they must inform the Parish Priest or Parish representative immediately. The report should include the date, time, and a description of the issue.</p>
@@ -462,7 +462,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Sections 3-16 would continue here with all the content -->
             <!-- Due to length constraints, I'll show the structure and you can copy your existing sections -->
             <!-- Updated: Changed from Section 2 to Section 3 -->
@@ -483,7 +483,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Updated: Changed from Section 3 to Section 4 -->
             <div class="section" id="section-4">
                 <h2><span class="section-number">Section 4</span> PREPARATION AND CLEANLINESS</h2>
@@ -505,7 +505,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Updated: Changed from Section 4 to Section 5 -->
             <div class="section" id="section-5">
                 <h2><span class="section-number">Section 5</span> NOISE AND PUBLIC ORDER</h2>
@@ -522,7 +522,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Updated: Changed from Section 5 to Section 6 -->
             <div class="section" id="section-6">
                 <h2><span class="section-number">Section 6</span> OPENING HOURS</h2>
@@ -537,7 +537,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Updated: Changed from Section 6 to Section 7 -->
             <div class="section" id="section-7">
                 <h2><span class="section-number">Section 7</span> LICENSING, GAMING & SALE OF GOODS</h2>
@@ -556,7 +556,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Updated: Changed from Section 7 to Section 8 -->
             <div class="section" id="section-8">
                 <h2><span class="section-number">Section 8</span> DEPOSIT AND HIRE FEES</h2>
@@ -574,7 +574,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Updated: Changed from Section 8 to Section 9 -->
             <div class="section" id="section-9">
                 <h2><span class="section-number">Section 9</span> CANCELLATION</h2>
@@ -600,7 +600,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Updated: Changed from Section 9 to Section 10 -->
             <div class="section" id="section-10">
                 <h2><span class="section-number">Section 10</span> HEALTH & SAFETY</h2>
@@ -615,14 +615,14 @@
                         <p><strong>10.1.6</strong> No child under age 12 is to enter the Hall Kitchen at any time. Older children must be strictly supervised by a responsible adult in the Kitchen. No animals whatsoever are to enter the kitchen at any time.</p>
                         <p><strong>10.1.7</strong> Warning: the surfaces in the kitchen may have been used for the preparation of food containing allergenic items. Take appropriate action if you have an allergy sufferer using the Hall.</p>
                     </div>
-
+                    
                     <p><strong>10.2 Heating & Hot Water Instructions:</strong></p>
                     <div class="sub-clause">
                         <p><strong>10.2.1</strong> The Hall heating is timed and should be adequate for your use. To activate, turn up the thermostat on the Hall wall (and return to marked position at the end of use, or when not required).</p>
                         <p><strong>10.2.2</strong> Water from the kitchen tap may be very hot and should not be used by children.</p>
                         <p><strong>10.2.3</strong> Any urn available in the kitchen: drain any water from it before first use; then switch on at the wall. You must ensure the urn is switched off when no longer in use and at the end of hire.</p>
                     </div>
-
+                    
                     <p><strong>10.3 The Hirer shall:</strong></p>
                     <div class="sub-clause">
                         <p><strong>10.3.1</strong> Accept responsibility for being in charge of and on the Premises at all times during the hiring and for ensuring that all conditions of the Hire Agreement and Conditions of Hire are met.</p>
@@ -635,7 +635,7 @@
                         <p><strong>10.3.8</strong> Report any hazards (e.g. damaged carpet or trailing cables) to the Parish Priest as soon as possible and in any event no later than the next working day.</p>
                         <p><strong>10.3.9</strong> Comply with all Government and Diocesan guidance and regulations for the prevention and transmission of the Covid-19 virus.</p>
                     </div>
-
+                    
                     <p><strong>10.4 Prohibited Items & Activities:</strong></p>
                     <div class="sub-clause">
                         <p><strong>10.4.1</strong> No heating appliances, portable gas or other such items shall be brought into or used on the premises.</p>
@@ -649,7 +649,7 @@
                         <p><strong>10.4.9</strong> No items shall be fixed to the walls, windows, or doors with pins, nails, blu-tack, or anything else that will disturb or damage the surfaces of the Hall.</p>
                         <p><strong>10.4.10</strong> No items that come under COSHH (Control of Substances Hazardous to Health) will be introduced to or left in the Hall, including any toxic or flammable cleaning product.</p>
                     </div>
-
+                    
                     <p><strong>10.5 First Aid Responsibility:</strong></p>
                     <div class="sub-clause">
                         <p><strong>10.5.1</strong> Each user Group and User are responsible for their own First Aid support and facilities. A basic First Aid box is available in the Hall for use only by First Aid trained persons or on a self-help basis.</p>
@@ -662,7 +662,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Updated: Changed from Section 10 to Section 11 -->
             <div class="section" id="section-11">
                 <h2><span class="section-number">Section 11</span> FIRE SAFETY</h2>
@@ -690,7 +690,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Updated: Changed from Section 11 to Section 12 -->
             <div class="section" id="section-12">
                 <h2><span class="section-number">Section 12</span> THE USE OF CANDLES WITHIN PARISH PREMISES</h2>
@@ -706,7 +706,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Updated: Changed from Section 12 to Section 13 -->
             <div class="section" id="section-13">
                 <h2><span class="section-number">Section 13</span> ACCIDENTS AND INCIDENTS</h2>
@@ -723,7 +723,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Updated: Changed from Section 13 to Section 14 -->
             <div class="section" id="section-14">
                 <h2><span class="section-number">Section 14</span> INDEMNITIES</h2>
@@ -747,7 +747,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Updated: Changed from Section 14 to Section 15 -->
             <div class="section" id="section-15">
                 <h2><span class="section-number">Section 15</span> SAFEGUARDING</h2>
@@ -764,7 +764,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Updated: Changed from Section 15 to Section 16 -->
             <div class="section" id="section-16">
                 <h2><span class="section-number">Section 16</span> GENERAL</h2>
@@ -792,11 +792,11 @@
                     <div class="warning">
                         <strong>⚠️ IMPORTANT:</strong> By completing this form, you are declaring that you have read and agree to observe and perform all provisions of this Hire Agreement. You confirm you are over 18 years of age and duly authorised to enter into this Agreement on behalf of the Hirer.
                     </div>
-
+                    
                     <p>I request the hire of the Premises on the date(s) and times and for the purpose set out above.</p>
-
+                    
                     <p><strong>Declaration on behalf of the Hirer:</strong> I have read and agree to observe and perform the provisions of this Hire Agreement, including the terms and conditions set out in the 'Conditions of Hire'. I am over 18 years of age and duly authorised to enter into this Agreement on behalf of the Hirer.</p>
-
+                    
                     <p><strong>The Parish Priest permits the Hirer to use the Premises as set out above subject to the terms and conditions contained in this Agreement. The Hire Agreement will not be binding until accepted and signed by the Parish Priest. The Parish Priest may decline the request to hire the Premises at any time at his sole discretion.</strong></p>
                 </div>
                 <div class="read-confirm">
@@ -806,16 +806,16 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="btn-container">
                 <button type="button" id="proceedBtn" class="btn" disabled>Proceed to Details Form</button>
             </div>
-
+            
             <!-- User Details Form -->
             <div class="user-details-form" id="userDetailsForm">
                 <h2>Your Details</h2>
                 <p>Please fill in your details to complete the agreement</p>
-
+                
                 <div class="form-row">
                     <div class="form-col">
                         <div class="form-group">
@@ -830,7 +830,7 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="form-row">
                     <div class="form-col">
                         <div class="form-group">
@@ -845,9 +845,8 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="form-row">
-               <!-- <div class="form-row">
                     <div class="form-col">
                         <div class="form-group">
                             <label for="address">Address *</label>
@@ -861,40 +860,7 @@
                         </div>
                     </div>
                 </div>
-                </div>-->
-				
-				    <!-- ========== START OF CHANGED SECTION ========== -->
-    <!-- UPDATED: Address fields split into House Number, Street Name, Town, Postcode -->
-    <div class="form-row">
-        <div class="form-col">
-            <div class="form-group">
-                <label for="houseNumber">House Number / Name *</label>
-                <input type="text" id="houseNumber" name="houseNumber" placeholder="e.g., 12, The Old Barn" required>
-            </div>
-        </div>
-        <div class="form-col">
-            <div class="form-group">
-                <label for="streetName">Street Name *</label>
-                <input type="text" id="streetName" name="streetName" placeholder="e.g., High Street, Park Lane" required>
-            </div>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-col">
-            <div class="form-group">
-                <label for="town">Town / City *</label>
-                <input type="text" id="town" name="town" placeholder="e.g., Maidstone" required>
-            </div>
-        </div>
-        <div class="form-col">
-            <div class="form-group">
-                <label for="postcode">Postcode *</label>
-                <input type="text" id="postcode" name="postcode" placeholder="e.g., ME16 0ST" required>
-            </div>
-        </div>
-    </div>
-    <!-- ========== END OF CHANGED SECTION ========== -->
-
+                
                 <div class="form-row">
                     <div class="form-col">
                         <div class="form-group">
@@ -917,19 +883,19 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="form-group">
                     <label for="purpose">Purpose of Hire * (Max 300 characters)</label>
                     <textarea id="purpose" name="purpose" rows="3" maxlength="300" required></textarea>
                     <div id="purpose-counter" class="character-counter">0/300</div>
                 </div>
-
+                
                 <div class="form-group">
                     <label for="attendees">Estimated Number of Attendees *</label>
                     <input type="number" id="attendees" name="attendees" min="1" max="150" required>
                     <small>Maximum capacity: 100 persons (as per fire safety regulations)</small>
                 </div>
-
+                
                 <!-- Signature Field -->
                 <div class="form-group">
                     <label for="signature">Signature *</label>
@@ -944,21 +910,21 @@
                     <input type="hidden" id="signatureData" name="signatureData">
                     <small>Please sign above and click "Confirm Signature" to save your signature.</small>
                 </div>
-
+                
                 <div class="form-group">
                     <label>
                         <input type="checkbox" id="ageConfirm" name="ageConfirm" required>
                         I confirm that I am 18 years of age or older *
                     </label>
                 </div>
-
+                
                 <div class="form-group">
                     <label>
                         <input type="checkbox" id="termsConfirm" name="termsConfirm" required>
                         I have read and agree to all terms and conditions in this Hire Agreement *
                     </label>
                 </div>
-
+                
                 <div class="btn-container">
                     <button type="submit" class="btn btn-success">Submit & Generate PDF Agreement</button>
                 </div>
@@ -969,29 +935,29 @@
 <script>
     // Initialize jsPDF
     const { jsPDF } = window.jspdf;
-
+    
     // Track checked sections
     let checkedSections = new Set();
     const totalSections = 17;
-
+    
     // Signature Pad variables
     let signaturePad = null;
     let isSignatureSigned = false;
     let signatureConfirmed = false;
-
+    
     // Function to handle image loading errors
     function handleImageError(imgElement) {
         console.error('Image failed to load:', imgElement.src);
-
+        
         // Try alternative paths
         const pathsToTry = [
             'CAOS.png',
             './CAOS.png',
             '/CAOS.png'
         ];
-
+        
         let currentIndex = pathsToTry.indexOf(imgElement.src);
-
+        
         if (currentIndex === -1 || currentIndex >= pathsToTry.length - 1) {
             // All paths failed, use fallback text
             const logoContainer = document.querySelector('.logo-container');
@@ -1000,19 +966,19 @@
             }
             return;
         }
-
+        
         // Try next path
         const nextPath = pathsToTry[currentIndex + 1];
         console.log('Trying alternative path:', nextPath);
         imgElement.src = nextPath;
     }
-
+    
     // Function to ensure image loads for PDF
     function loadImageForPDF(callback) {
         // Use the same path as in HTML
         const imgUrl = 'CAOS.png';
         console.log('Loading image for PDF from:', imgUrl);
-
+        
         // Check if image is already loaded in DOM
         const domImg = document.getElementById('church-logo');
         if (domImg && domImg.complete && domImg.naturalHeight !== 0) {
@@ -1020,11 +986,11 @@
             callback(domImg);
             return;
         }
-
+        
         // Create and load new image
         const pdfImg = new Image();
         pdfImg.crossOrigin = 'Anonymous';
-
+        
         // Set timeout for image loading
         const loadTimeout = setTimeout(() => {
             console.log('Image load timeout');
@@ -1032,37 +998,37 @@
             pdfImg.onerror = null;
             callback(null);
         }, 3000);
-
+        
         pdfImg.onload = function() {
             clearTimeout(loadTimeout);
             console.log('Image loaded successfully for PDF');
             callback(pdfImg);
         };
-
+        
         pdfImg.onerror = function() {
             clearTimeout(loadTimeout);
             console.log('Image failed to load for PDF');
             callback(null);
         };
-
+        
         pdfImg.src = imgUrl;
     }
-
+    
     // Function to extract all sections with structure
     function extractAllSections() {
         const sections = [];
         document.querySelectorAll('.section').forEach((section, index) => {
             const sectionNumber = section.querySelector('.section-number')?.textContent || `Section ${index + 1}`;
             const sectionTitle = section.querySelector('h2')?.textContent.replace(sectionNumber, '').trim() || '';
-
+            
             // Extract all paragraphs including those in sub-clauses
             const sectionContent = [];
             const sectionContentDiv = section.querySelector('.section-content');
-
+            
             if (sectionContentDiv) {
                 // Get all text nodes and paragraphs
                 const paragraphs = sectionContentDiv.querySelectorAll('p');
-
+                
                 paragraphs.forEach(p => {
                     const text = p.textContent.trim();
                     if (text) {
@@ -1072,7 +1038,7 @@
                         });
                     }
                 });
-
+                
                 // Also get any text that might be directly in divs but not in paragraphs
                 const subClauses = sectionContentDiv.querySelectorAll('.sub-clause, .sub-sub-clause');
                 subClauses.forEach(subClause => {
@@ -1089,7 +1055,7 @@
                     }
                 });
             }
-
+            
             sections.push({
                 number: sectionNumber,
                 title: sectionTitle,
@@ -1098,22 +1064,22 @@
         });
         return sections;
     }
-
+    
     // Update progress
     function updateProgress() {
         const percent = (checkedSections.size / totalSections) * 100;
         document.getElementById('progress-percent').textContent = Math.round(percent) + '%';
         document.getElementById('sections-read').textContent = checkedSections.size;
         document.getElementById('progress-fill').style.width = percent + '%';
-
+        
         checkedSections.forEach(section => {
             document.getElementById(`section-${section}`).classList.add('completed');
         });
-
+        
         const proceedBtn = document.getElementById('proceedBtn');
         proceedBtn.disabled = checkedSections.size !== totalSections;
     }
-
+    
     // Handle checkbox changes
     document.querySelectorAll('.section-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function() {
@@ -1128,38 +1094,38 @@
             updateProgress();
         });
     });
-
+    
     // Proceed to details form
     document.getElementById('proceedBtn').addEventListener('click', function() {
         document.getElementById('userDetailsForm').style.display = 'block';
         this.style.display = 'none';
-
+        
         // Initialize signature pad after a short delay
         setTimeout(() => {
             initSignaturePad();
         }, 500);
     });
-
+    
     // Initialize Signature Pad
     function initSignaturePad() {
         const canvas = document.getElementById('signatureCanvas');
         const signatureDataInput = document.getElementById('signatureData');
-
+        
         if (!canvas) {
             console.error('Canvas element not found!');
             return;
         }
-
+        
         // Set canvas dimensions
         canvas.width = canvas.offsetWidth;
         canvas.height = canvas.offsetHeight;
-
+        
         // Clear any existing signature pad
         if (signaturePad) {
             signaturePad.off();
             signaturePad.clear();
         }
-
+        
         // Initialize Signature Pad
         try {
             signaturePad = new SignaturePad(canvas, {
@@ -1174,7 +1140,7 @@
             console.error('Error initializing Signature Pad:', error);
             return;
         }
-
+        
         // Clear signature button
         document.getElementById('clearSignature').addEventListener('click', function() {
             signaturePad.clear();
@@ -1182,7 +1148,7 @@
             signatureConfirmed = false;
             updateSignatureStatus();
         });
-
+        
         // Confirm Signature button
         document.getElementById('confirmSignature').addEventListener('click', function() {
             if (!signaturePad.isEmpty()) {
@@ -1194,20 +1160,20 @@
                 alert('Please sign first before confirming.');
             }
         });
-
+        
         // Update signature status on end
         signaturePad.onEnd = function() {
             updateSignatureStatus();
         };
-
+        
         // Initial status update
         updateSignatureStatus();
     }
-
+    
     function updateSignatureStatus() {
         const signatureDataInput = document.getElementById('signatureData');
         const statusElement = document.getElementById('signatureStatus');
-
+        
         if (!signaturePad) {
             isSignatureSigned = false;
             if (statusElement) {
@@ -1216,9 +1182,9 @@
             }
             return;
         }
-
+        
         isSignatureSigned = !signaturePad.isEmpty();
-
+        
         if (statusElement) {
             if (isSignatureSigned && signatureConfirmed) {
                 statusElement.textContent = '✓ Signature confirmed and saved';
@@ -1233,15 +1199,15 @@
             }
         }
     }
-
+    
     // Character counter for purpose text box
     document.getElementById('purpose').addEventListener('input', function() {
         const counter = document.getElementById('purpose-counter');
         const length = this.value.length;
         const maxLength = 300;
-
+        
         counter.textContent = `${length}/${maxLength}`;
-
+        
         // Update counter style based on remaining characters
         counter.classList.remove('near-limit', 'at-limit');
         if (length > maxLength * 0.9) { // 90% of limit
@@ -1251,7 +1217,7 @@
             counter.classList.add('at-limit');
         }
     });
-
+    
     // Generate PDF function with all requested features
     function generatePDF(formData) {
         try {
@@ -1259,19 +1225,19 @@
             if (!formData.signatureData || formData.signatureData.trim() === '') {
                 throw new Error('No signature data provided. Please sign and confirm your signature.');
             }
-
+            
             if (!signatureConfirmed) {
                 throw new Error('Signature not confirmed. Please click "Confirm Signature" button.');
             }
-
+            
             console.log('Generating PDF...');
-
+            
             // Create new PDF document
             const doc = new jsPDF();
             const pageWidth = doc.internal.pageSize.getWidth();
             const pageHeight = doc.internal.pageSize.getHeight();
             let yPos = 20;
-
+            
             // Load and add logo to PDF
             loadImageForPDF(function(logoImg) {
                 // Continue PDF generation whether or not image loaded
@@ -1280,7 +1246,7 @@
                         // Calculate dimensions for PDF
                         const imgWidth = 25;
                         const imgHeight = (logoImg.height * imgWidth) / logoImg.width;
-
+                        
                         // Add logo to PDF (centered)
                         doc.addImage(logoImg, 'PNG', (pageWidth - imgWidth) / 2, yPos, imgWidth, imgHeight);
                         yPos += imgHeight + 15;
@@ -1290,17 +1256,17 @@
                     console.log('Could not add image to PDF:', error.message);
                     // Continue without logo
                 }
-
+                
                 // Continue with PDF generation
                 continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData);
             });
-
+            
         } catch (error) {
             console.error('Error generating PDF:', error.message);
             alert('Error generating PDF: ' + error.message);
         }
     }
-
+    
     // Function to continue PDF generation after image is loaded (or not)
     function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
         // Add header
@@ -1308,132 +1274,7 @@
         doc.setTextColor(44, 62, 80);
         doc.text('HOLY FAMILY CATHOLIC CHURCH HALL HIRE AGREEMENT', pageWidth / 2, yPos, { align: 'center' });
         yPos += 15;
-   // Function to continue PDF generation after image is loaded (or not)
-function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
-    // Add header
-    doc.setFontSize(20);
-    doc.setTextColor(44, 62, 80);
-    doc.text('HOLY FAMILY CATHOLIC CHURCH HALL HIRE AGREEMENT', pageWidth / 2, yPos, { align: 'center' });
-    yPos += 15;
-    
-    doc.setFontSize(12);
-    doc.setTextColor(52, 152, 219);
-    doc.text('PARISH PROPERTY AT HOLY FAMILY CATHOLIC CHURCH, PARKWOOD, MAIDSTONE', pageWidth / 2, yPos, { align: 'center' });
-    yPos += 20;
-    
-    // Add line
-    doc.setDrawColor(44, 62, 80);
-    doc.setLineWidth(0.5);
-    doc.line(20, yPos, pageWidth - 20, yPos);
-    yPos += 10;
-    
-    // Information for Hirers
-    doc.setFontSize(14);
-    doc.setTextColor(44, 62, 80);
-    doc.text('INFORMATION FOR HIRERS', 20, yPos);
-    yPos += 10;
-    
-    doc.setFontSize(10);
-    doc.setTextColor(0, 0, 0);
-    
-    const infoText = [
-        "Parish property is primarily for use in conjunction with the Church and its services, including baptisms,",
-        "weddings, and funerals. It is available for use by groups associated with the Parish or for other purposes",
-        "at the discretion of the Parish Priest.",
-        "",
-        "The Property is owned by the Roman Catholic Archdiocese of Southwark CIO and can only be hired on the",
-        "basis that the use must conform and be consistent with the objects of the Charity and that it will not be",
-        "used for any purpose which is contrary to the teachings of the Catholic Church or which could cause offence.",
-        "At all times, the Catholic nature of the Building is to be respected.",
-        "",
-        "Hire Fees: The hire fees are as set out in the Hire Agreement. For private bookings, a deposit of £150",
-        "is required at the time of booking. The deposit will be returned in full within two weeks after use of",
-        "the Hall. If additional cleaning of the Hall is required £100 will be deducted from the deposit.",
-        "",
-        "Payment: Full payment of the hire fee is due 28 days before the date of hire, or immediately upon",
-        "signing the Hire Agreement if the hire period is less than 28 days from the booking."
-    ];
-    
-    infoText.forEach(line => {
-        if (yPos > pageHeight - 20) {
-            doc.addPage();
-            yPos = 20;
-        }
-        doc.text(line, 20, yPos);
-        yPos += 6;
-    });
-    
-    yPos += 10;
-    
-    // Add hirer details section in two-column format
-    doc.setFontSize(14);
-    doc.setTextColor(44, 62, 80);
-    doc.text('HIRER DETAILS', 20, yPos);
-    yPos += 10;
-    
-    doc.setFontSize(10);
-    doc.setTextColor(0, 0, 0);
-    
-    // Two-column layout
-    const columnWidth = (pageWidth - 60) / 2; // 60 = left margin + middle gap + right margin
-    const leftColumnX = 20;
-    const rightColumnX = leftColumnX + columnWidth + 20;
-    
-    // Combine address from split fields
-    const fullAddress = `${formData.houseNumber} ${formData.streetName}, ${formData.town}`;
-    
-    // Left column details
-    doc.text(`Full Name: ${formData.fullName}`, leftColumnX, yPos);
-    doc.text(`Email: ${formData.email}`, leftColumnX, yPos + 7);
-    doc.text(`Address: ${fullAddress}`, leftColumnX, yPos + 14);
-    doc.text(`Hire Date: ${formData.hireDate}`, leftColumnX, yPos + 21);
-    
-    // Right column details
-    doc.text(`Organization: ${formData.organization || 'N/A'}`, rightColumnX, yPos);
-    doc.text(`Phone: ${formData.phone}`, rightColumnX, yPos + 7);
-    doc.text(`Postcode: ${formData.postcode}`, rightColumnX, yPos + 14);
-    doc.text(`Hire Time: ${formData.hireTimeFrom} to ${formData.hireTimeTo}`, rightColumnX, yPos + 21);
-    
-    yPos += 28;
-    
-    // Purpose (spans both columns)
-    const purposeText = `Purpose: ${formData.purpose}`;
-    const purposeLines = doc.splitTextToSize(purposeText, pageWidth - 40);
-    purposeLines.forEach(line => {
-        if (yPos > pageHeight - 20) {
-            doc.addPage();
-            yPos = 20;
-        }
-        doc.text(line, 20, yPos);
-        yPos += 7;
-    });
-    
-    // Attendees (spans both columns)
-    doc.text(`Estimated Attendees: ${formData.attendees}`, 20, yPos);
-    yPos += 10;
-    
-    // Add line separator
-    doc.setDrawColor(44, 62, 80);
-    doc.setLineWidth(0.5);
-    doc.line(20, yPos, pageWidth - 20, yPos);
-    yPos += 15;
-    
-    // Extract and add all sections with proper clause formatting
-    const sections = extractAllSections();
-    
-    doc.setFontSize(14);
-    doc.setTextColor(44, 62, 80);
-    doc.text('CONDITIONS OF HIRE', 20, yPos);
-    yPos += 15;
-    
-    // Add each section to PDF with proper clause formatting
-    sections.forEach((section, index) => {
-        if (yPos > pageHeight - 30) {
-            doc.addPage();
-            yPos = 20;
-        }
-
-        // Add section header
+        
         doc.setFontSize(12);
         doc.setTextColor(52, 152, 219);
         doc.text('PARISH PROPERTY AT HOLY FAMILY CATHOLIC CHURCH, PARKWOOD, MAIDSTONE', pageWidth / 2, yPos, { align: 'center' });
@@ -1450,14 +1291,10 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
         doc.setTextColor(44, 62, 80);
         doc.text('INFORMATION FOR HIRERS', 20, yPos);
         yPos += 10;
-        const sectionTitle = `${section.number} ${section.title}`;
-        doc.text(sectionTitle, 20, yPos);
-        yPos += 8;
-
-        // Add section content with clause formatting
+        
         doc.setFontSize(10);
         doc.setTextColor(0, 0, 0);
-
+        
         const infoText = [
             "Parish property is primarily for use in conjunction with the Church and its services, including baptisms,",
             "weddings, and funerals. It is available for use by groups associated with the Parish or for other purposes",
@@ -1475,11 +1312,8 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
             "Payment: Full payment of the hire fee is due 28 days before the date of hire, or immediately upon",
             "signing the Hire Agreement if the hire period is less than 28 days from the booking."
         ];
-        // Format each clause to appear on a new line with full width
-        const maxLineWidth = pageWidth - 40; // 20px margin on each side
-
+        
         infoText.forEach(line => {
-        section.content.forEach(clause => {
             if (yPos > pageHeight - 20) {
                 doc.addPage();
                 yPos = 20;
@@ -1554,7 +1388,7 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
                 doc.addPage();
                 yPos = 20;
             }
-
+            
             // Add section header
             doc.setFontSize(12);
             doc.setTextColor(44, 62, 80);
@@ -1568,9 +1402,7 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
             
             // Format each clause to appear on a new line with full width
             const maxLineWidth = pageWidth - 40; // 20px margin on each side
-            // Clean and process the clause text
-            let clauseText = clause.text.trim();
-
+            
             section.content.forEach(clause => {
                 if (yPos > pageHeight - 20) {
                     doc.addPage();
@@ -1579,11 +1411,7 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
                 
                 // Clean and process the clause text
                 let clauseText = clause.text.trim();
-            // Ensure each clause starts on a new line
-            if (clauseText) {
-                // Split long clauses into multiple lines
-                const lines = doc.splitTextToSize(clauseText, maxLineWidth);
-
+                
                 // Ensure each clause starts on a new line
                 if (clauseText) {
                     // Split long clauses into multiple lines
@@ -1598,17 +1426,11 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
                         doc.text(line, 20, yPos);
                         yPos += 7;
                     });
-                lines.forEach(line => {
-                    if (yPos > pageHeight - 20) {
-                        doc.addPage();
-                        yPos = 20;
-                    }
-
+                    
                     // Add a small gap after each clause
                     yPos += 3;
                 } else {
                     // Empty line for spacing between major sections
-                    doc.text(line, 20, yPos);
                     yPos += 7;
                 }
             });
@@ -1620,16 +1442,9 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
             if ((index + 1) % 3 === 0 && index < sections.length - 1) {
                 doc.addPage();
                 yPos = 20;
-                });
-                
-                // Add a small gap after each clause
-                yPos += 3;
-            } else {
-                // Empty line for spacing between major sections
-                yPos += 7;
             }
         });
-
+        
         // Add signature page
         doc.addPage();
         yPos = 40;
@@ -1661,9 +1476,7 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
         });
         
         yPos += 20;
-        // Add more space between sections
-        yPos += 10;
-
+        
         // Add signature if available
         if (formData.signatureData && formData.signatureData.startsWith('data:image')) {
             try {
@@ -1689,10 +1502,6 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
                 yPos += 8;
                 doc.text("Date: ___________________________", 20, yPos);
             }
-        // Add a page break after every 3 sections for better readability
-        if ((index + 1) % 3 === 0 && index < sections.length - 1) {
-            doc.addPage();
-            yPos = 20;
         }
         
         yPos += 20;
@@ -1705,35 +1514,6 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
         doc.text("Date: ___________________________", 20, yPos);
         yPos += 8;
         doc.text("Name: ___________________________", 20, yPos);
-    });
-    
-    // Add signature page
-    doc.addPage();
-    yPos = 40;
-    
-    doc.setFontSize(16);
-    doc.setTextColor(44, 62, 80);
-    doc.text('DECLARATION AND SIGNATURE', pageWidth / 2, yPos, { align: 'center' });
-    yPos += 20;
-    
-    doc.setFontSize(11);
-    doc.setTextColor(0, 0, 0);
-    
-    const declarationLines = [
-        "I request the hire of the Premises on the date(s) and times and for the purpose set out above.",
-        "",
-        "Declaration on behalf of the Hirer: I have read and agree to observe and perform the provisions of this",
-        "Hire Agreement, including the terms and conditions set out in the 'Conditions of Hire'. I am over 18",
-        "years of age and duly authorised to enter into this Agreement on behalf of the Hirer.",
-        "",
-        "The Parish Priest permits the Hirer to use the Premises as set out above subject to the terms and",
-        "conditions contained in this Agreement. The Hire Agreement will not be binding until accepted and",
-        "signed by the Parish Priest. The Parish Priest may decline the request to hire the Premises at any",
-        "time at his sole discretion."
-    ];
-    
-    declarationLines.forEach(line => {
-        doc.text(line, 20, yPos);
         yPos += 8;
         doc.text("Position: ___________________________", 20, yPos);
         
@@ -1746,34 +1526,6 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
             doc.text(`Page ${i} of ${pageCount}`, pageWidth - 30, pageHeight - 10);
             doc.text('Holy Family Church Hall Hire Agreement', 20, pageHeight - 10);
             doc.text('Generated: ' + new Date().toLocaleDateString('en-GB'), pageWidth / 2, pageHeight - 10, { align: 'center' });
-    });
-    
-    yPos += 20;
-    
-    // Add signature if available
-    if (formData.signatureData && formData.signatureData.startsWith('data:image')) {
-        try {
-            doc.text("Digital Signature of Hirer:", 20, yPos);
-            yPos += 8;
-            
-            // Calculate signature dimensions
-            const signatureWidth = 80;
-            const signatureHeight = 30;
-            doc.addImage(formData.signatureData, 'PNG', 20, yPos, signatureWidth, signatureHeight);
-            yPos += signatureHeight + 10;
-            
-            doc.text(`Signed by: ${formData.fullName}`, 20, yPos);
-            yPos += 8;
-            doc.text(`Date: ${new Date().toLocaleDateString('en-GB')}`, 20, yPos);
-            yPos += 8;
-            doc.text(`Time: ${new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}`, 20, yPos);
-            
-            console.log('Signature added to PDF successfully');
-        } catch (e) {
-            console.log("Error adding signature image:", e.message);
-            doc.text("Signed (Hirer): ___________________________", 20, yPos);
-            yPos += 8;
-            doc.text("Date: ___________________________", 20, yPos);
         }
         
         // Save the PDF
@@ -1783,7 +1535,7 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
         console.log('PDF generated successfully:', fileName);
         alert(`PDF generated successfully: ${fileName}\n\nPlease save this document and return it to the Parish Priest for final approval and signing.`);
     }
-
+    
     // Form submission handler
     document.getElementById('agreementForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -1830,49 +1582,6 @@ function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
         // Check if signature data is valid base64 image
         if (!signatureData.startsWith('data:image')) {
             alert('Signature appears to be invalid. Please clear and sign again.');
-    yPos += 20;
-    
-    // Add space for Parish Priest signature
-    doc.text("For and on behalf of Holy Family Catholic Church:", 20, yPos);
-    yPos += 15;
-    doc.text("Signed (Parish Priest/Authorised Representative): ___________________________", 20, yPos);
-    yPos += 8;
-    doc.text("Date: ___________________________", 20, yPos);
-    yPos += 8;
-    doc.text("Name: ___________________________", 20, yPos);
-    yPos += 8;
-    doc.text("Position: ___________________________", 20, yPos);
-    
-    // Add footer to all pages
-    const pageCount = doc.internal.getNumberOfPages();
-    for (let i = 1; i <= pageCount; i++) {
-        doc.setPage(i);
-        doc.setFontSize(8);
-        doc.setTextColor(150, 150, 150);
-        doc.text(`Page ${i} of ${pageCount}`, pageWidth - 30, pageHeight - 10);
-        doc.text('Holy Family Church Hall Hire Agreement', 20, pageHeight - 10);
-        doc.text('Generated: ' + new Date().toLocaleDateString('en-GB'), pageWidth / 2, pageHeight - 10, { align: 'center' });
-    }
-    
-    // Save the PDF
-    const fileName = `Holy_Family_Church_Hall_Hire_Agreement_${formData.fullName.replace(/\s+/g, '_')}_${formData.hireDate}.pdf`;
-    doc.save(fileName);
-    
-    console.log('PDF generated successfully:', fileName);
-    alert(`PDF generated successfully: ${fileName}\n\nPlease save this document and return it to the Parish Priest for final approval and signing.`);
-}
-
-// Form submission handler (UPDATED)
-document.getElementById('agreementForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // UPDATED: Basic validation - replaced 'address' with split fields
-    const requiredFields = ['fullName', 'email', 'phone', 'houseNumber', 'streetName', 'town', 'postcode', 'hireDate', 'hireTimeFrom', 'hireTimeTo', 'purpose', 'attendees'];
-    for (const field of requiredFields) {
-        const element = document.getElementById(field);
-        if (!element.value.trim()) {
-            alert(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()} field.`);
-            element.focus();
             return;
         }
         
@@ -1895,18 +1604,10 @@ document.getElementById('agreementForm').addEventListener('submit', function(e) 
         console.log('Form data collected, generating PDF...');
         generatePDF(formData);
     });
-    }
-
+    
     // Initialize total sections count
     document.getElementById('total-sections').textContent = totalSections;
-    // Check purpose length
-    const purpose = document.getElementById('purpose').value;
-    if (purpose.length > 300) {
-        alert('Purpose of hire must be 300 characters or less.');
-        document.getElementById('purpose').focus();
-        return;
-    }
-
+    
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
         // Initialize purpose counter
@@ -1919,77 +1620,7 @@ document.getElementById('agreementForm').addEventListener('submit', function(e) 
         // Set minimum date for hire date to today
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('hireDate').min = today;
-    // Checkbox validation
-    if (!document.getElementById('ageConfirm').checked || !document.getElementById('termsConfirm').checked) {
-        alert('Please confirm that you are over 18 and agree to the terms.');
-        return;
-    }
-    
-    // Check signature
-    const signatureData = document.getElementById('signatureData').value;
-    
-    if (!signatureData || signatureData.trim() === '') {
-        alert('Please provide your signature by signing in the box above and clicking "Confirm Signature".');
-        document.getElementById('signatureCanvas').scrollIntoView({ behavior: 'smooth' });
-        return;
-    }
-    
-    if (!signatureConfirmed) {
-        alert('Please click "Confirm Signature" button to save your signature.');
-        return;
-    }
-    
-    // Check if signature data is valid base64 image
-    if (!signatureData.startsWith('data:image')) {
-        alert('Signature appears to be invalid. Please clear and sign again.');
-        return;
-    }
-    
-    // UPDATED: Collect form data with split address fields
-    const formData = {
-        fullName: document.getElementById('fullName').value,
-        organization: document.getElementById('organization').value || '',
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        houseNumber: document.getElementById('houseNumber').value,
-        streetName: document.getElementById('streetName').value,
-        town: document.getElementById('town').value,
-        postcode: document.getElementById('postcode').value,
-        hireDate: document.getElementById('hireDate').value,
-        hireTimeFrom: document.getElementById('hireTimeFrom').value,
-        hireTimeTo: document.getElementById('hireTimeTo').value,
-        purpose: purpose,
-        attendees: document.getElementById('attendees').value,
-        signatureData: signatureData
-    };
-    
-    console.log('Form data collected, generating PDF...');
-    generatePDF(formData);
-});
-
-// Initialize total sections count
-document.getElementById('total-sections').textContent = totalSections;
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize purpose counter
-    const purposeField = document.getElementById('purpose');
-    const counter = document.getElementById('purpose-counter');
-    if (purposeField && counter) {
-        counter.textContent = `${purposeField.value.length}/300`;
-    }
-    
-    // Set minimum date for hire date to today
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('hireDate').min = today;
-    
-    // Check if image loads
-    const img = document.getElementById('church-logo');
-    if (img) {
-        img.onload = function() {
-            console.log('Logo image loaded successfully');
-        };
-
+        
         // Check if image loads
         const img = document.getElementById('church-logo');
         if (img) {
@@ -2003,12 +1634,6 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         }
     });
-        img.onerror = function() {
-            console.log('Logo image failed to load, trying alternative path');
-            this.src = './CAOS.png';
-        };
-    }
-});
 </script>
 
 </body>
