@@ -423,7 +423,7 @@
                 </div>
             </div>
             
-            <!-- Section 2: Car Park Vehicle Registration -->
+            <!-- NEW SECTION: Car Park Vehicle Registration -->
             <div class="section" id="section-2">
                 <h2><span class="section-number">Section 2</span> CAR PARK VEHICLE REGISTRATION</h2>
                 <div class="section-content">
@@ -463,8 +463,6 @@
                 </div>
             </div>
             
-            <!-- Sections 3-16 would continue here with all the content -->
-            <!-- Due to length constraints, I'll show the structure and you can copy your existing sections -->
             <!-- Updated: Changed from Section 2 to Section 3 -->
             <div class="section" id="section-3">
                 <h2><span class="section-number">Section 3</span> NO RIGHTS & SUPERVISION</h2>
@@ -785,19 +783,12 @@
                     </div>
                 </div>
             </div>
-            <!-- Section 17: Declaration -->
             <div class="section" id="section-17">
                 <h2><span class="section-number">Section 17</span> DECLARATION</h2>
                 <div class="section-content">
-                    <div class="warning">
-                        <strong>⚠️ IMPORTANT:</strong> By completing this form, you are declaring that you have read and agree to observe and perform all provisions of this Hire Agreement. You confirm you are over 18 years of age and duly authorised to enter into this Agreement on behalf of the Hirer.
-                    </div>
-                    
+                    <div class="warning"><strong>⚠️ IMPORTANT:</strong> By completing this form, you are declaring that you have read and agree to observe and perform all provisions of this Hire Agreement.</div>
                     <p>I request the hire of the Premises on the date(s) and times and for the purpose set out above.</p>
-                    
                     <p><strong>Declaration on behalf of the Hirer:</strong> I have read and agree to observe and perform the provisions of this Hire Agreement, including the terms and conditions set out in the 'Conditions of Hire'. I am over 18 years of age and duly authorised to enter into this Agreement on behalf of the Hirer.</p>
-                    
-                    <p><strong>The Parish Priest permits the Hirer to use the Premises as set out above subject to the terms and conditions contained in this Agreement. The Hire Agreement will not be binding until accepted and signed by the Parish Priest. The Parish Priest may decline the request to hire the Premises at any time at his sole discretion.</strong></p>
                 </div>
                 <div class="read-confirm">
                     <div class="checkbox-container">
@@ -811,7 +802,7 @@
                 <button type="button" id="proceedBtn" class="btn" disabled>Proceed to Details Form</button>
             </div>
             
-            <!-- User Details Form -->
+            <!-- User Details Form with Updated Address Fields -->
             <div class="user-details-form" id="userDetailsForm">
                 <h2>Your Details</h2>
                 <p>Please fill in your details to complete the agreement</p>
@@ -846,16 +837,27 @@
                     </div>
                 </div>
                 
+                <!-- Updated Address Fields: House number & street name, Locality name, TOWN, POSTCODE -->
+                <div class="form-group">
+                    <label for="streetAddress">House number and street name *</label>
+                    <input type="text" id="streetAddress" name="streetAddress" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="locality">Locality name</label>
+                    <input type="text" id="locality" name="locality">
+                </div>
+                
                 <div class="form-row">
                     <div class="form-col">
                         <div class="form-group">
-                            <label for="address">Address *</label>
-                            <input type="text" id="address" name="address" required>
+                            <label for="town">TOWN *</label>
+                            <input type="text" id="town" name="town" required>
                         </div>
                     </div>
                     <div class="form-col">
                         <div class="form-group">
-                            <label for="postcode">Postcode *</label>
+                            <label for="postcode">POSTCODE *</label>
                             <input type="text" id="postcode" name="postcode" required>
                         </div>
                     </div>
@@ -912,17 +914,11 @@
                 </div>
                 
                 <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="ageConfirm" name="ageConfirm" required>
-                        I confirm that I am 18 years of age or older *
-                    </label>
+                    <label><input type="checkbox" id="ageConfirm" name="ageConfirm" required> I confirm that I am 18 years of age or older *</label>
                 </div>
                 
                 <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="termsConfirm" name="termsConfirm" required>
-                        I have read and agree to all terms and conditions in this Hire Agreement *
-                    </label>
+                    <label><input type="checkbox" id="termsConfirm" name="termsConfirm" required> I have read and agree to all terms and conditions in this Hire Agreement *</label>
                 </div>
                 
                 <div class="btn-container">
@@ -933,154 +929,20 @@
     </div>
 
 <script>
-    // Initialize jsPDF
     const { jsPDF } = window.jspdf;
-    
-    // Track checked sections
     let checkedSections = new Set();
     const totalSections = 17;
-    
-    // Signature Pad variables
     let signaturePad = null;
-    let isSignatureSigned = false;
     let signatureConfirmed = false;
     
-    // Function to handle image loading errors
-    function handleImageError(imgElement) {
-        console.error('Image failed to load:', imgElement.src);
-        
-        // Try alternative paths
-        const pathsToTry = [
-            'CAOS.png',
-            './CAOS.png',
-            '/CAOS.png'
-        ];
-        
-        let currentIndex = pathsToTry.indexOf(imgElement.src);
-        
-        if (currentIndex === -1 || currentIndex >= pathsToTry.length - 1) {
-            // All paths failed, use fallback text
-            const logoContainer = document.querySelector('.logo-container');
-            if (logoContainer) {
-                logoContainer.innerHTML = '<h1 style="color: var(--primary-color);">Holy Family Church</h1>';
-            }
-            return;
-        }
-        
-        // Try next path
-        const nextPath = pathsToTry[currentIndex + 1];
-        console.log('Trying alternative path:', nextPath);
-        imgElement.src = nextPath;
-    }
-    
-    // Function to ensure image loads for PDF
-    function loadImageForPDF(callback) {
-        // Use the same path as in HTML
-        const imgUrl = 'CAOS.png';
-        console.log('Loading image for PDF from:', imgUrl);
-        
-        // Check if image is already loaded in DOM
-        const domImg = document.getElementById('church-logo');
-        if (domImg && domImg.complete && domImg.naturalHeight !== 0) {
-            console.log('Using existing DOM image for PDF');
-            callback(domImg);
-            return;
-        }
-        
-        // Create and load new image
-        const pdfImg = new Image();
-        pdfImg.crossOrigin = 'Anonymous';
-        
-        // Set timeout for image loading
-        const loadTimeout = setTimeout(() => {
-            console.log('Image load timeout');
-            pdfImg.onload = null;
-            pdfImg.onerror = null;
-            callback(null);
-        }, 3000);
-        
-        pdfImg.onload = function() {
-            clearTimeout(loadTimeout);
-            console.log('Image loaded successfully for PDF');
-            callback(pdfImg);
-        };
-        
-        pdfImg.onerror = function() {
-            clearTimeout(loadTimeout);
-            console.log('Image failed to load for PDF');
-            callback(null);
-        };
-        
-        pdfImg.src = imgUrl;
-    }
-    
-    // Function to extract all sections with structure
-    function extractAllSections() {
-        const sections = [];
-        document.querySelectorAll('.section').forEach((section, index) => {
-            const sectionNumber = section.querySelector('.section-number')?.textContent || `Section ${index + 1}`;
-            const sectionTitle = section.querySelector('h2')?.textContent.replace(sectionNumber, '').trim() || '';
-            
-            // Extract all paragraphs including those in sub-clauses
-            const sectionContent = [];
-            const sectionContentDiv = section.querySelector('.section-content');
-            
-            if (sectionContentDiv) {
-                // Get all text nodes and paragraphs
-                const paragraphs = sectionContentDiv.querySelectorAll('p');
-                
-                paragraphs.forEach(p => {
-                    const text = p.textContent.trim();
-                    if (text) {
-                        sectionContent.push({
-                            text: text,
-                            indent: 0
-                        });
-                    }
-                });
-                
-                // Also get any text that might be directly in divs but not in paragraphs
-                const subClauses = sectionContentDiv.querySelectorAll('.sub-clause, .sub-sub-clause');
-                subClauses.forEach(subClause => {
-                    const subParagraphs = subClause.querySelectorAll('p');
-                    if (subParagraphs.length === 0) {
-                        // If the sub-clause itself has direct text
-                        const text = subClause.textContent.trim();
-                        if (text) {
-                            sectionContent.push({
-                                text: text,
-                                indent: 0
-                            });
-                        }
-                    }
-                });
-            }
-            
-            sections.push({
-                number: sectionNumber,
-                title: sectionTitle,
-                content: sectionContent
-            });
-        });
-        return sections;
-    }
-    
-    // Update progress
     function updateProgress() {
         const percent = (checkedSections.size / totalSections) * 100;
         document.getElementById('progress-percent').textContent = Math.round(percent) + '%';
         document.getElementById('sections-read').textContent = checkedSections.size;
         document.getElementById('progress-fill').style.width = percent + '%';
-        
-        checkedSections.forEach(section => {
-            document.getElementById(`section-${section}`).classList.add('completed');
-        });
-        
-        const proceedBtn = document.getElementById('proceedBtn');
-        proceedBtn.disabled = checkedSections.size !== totalSections;
+        document.getElementById('proceedBtn').disabled = checkedSections.size !== totalSections;
     }
     
-    // Handle checkbox changes
     document.querySelectorAll('.section-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function() {
             const section = this.getAttribute('data-section');
@@ -1095,207 +957,87 @@
         });
     });
     
-    // Proceed to details form
     document.getElementById('proceedBtn').addEventListener('click', function() {
         document.getElementById('userDetailsForm').style.display = 'block';
         this.style.display = 'none';
-        
-        // Initialize signature pad after a short delay
-        setTimeout(() => {
-            initSignaturePad();
-        }, 500);
+        setTimeout(() => initSignaturePad(), 500);
     });
     
-    // Initialize Signature Pad
     function initSignaturePad() {
         const canvas = document.getElementById('signatureCanvas');
-        const signatureDataInput = document.getElementById('signatureData');
-        
-        if (!canvas) {
-            console.error('Canvas element not found!');
-            return;
-        }
-        
-        // Set canvas dimensions
+        if (!canvas) return;
         canvas.width = canvas.offsetWidth;
         canvas.height = canvas.offsetHeight;
-        
-        // Clear any existing signature pad
-        if (signaturePad) {
-            signaturePad.off();
-            signaturePad.clear();
-        }
-        
-        // Initialize Signature Pad
-        try {
-            signaturePad = new SignaturePad(canvas, {
-                backgroundColor: '#f9f9f9',
-                penColor: 'rgb(0, 0, 0)',
-                velocityFilterWeight: 0.7,
-                minWidth: 0.5,
-                maxWidth: 2.5,
-                minPointDistance: 3
-            });
-        } catch (error) {
-            console.error('Error initializing Signature Pad:', error);
-            return;
-        }
-        
-        // Clear signature button
-        document.getElementById('clearSignature').addEventListener('click', function() {
-            signaturePad.clear();
-            signatureDataInput.value = '';
-            signatureConfirmed = false;
-            updateSignatureStatus();
-        });
-        
-        // Confirm Signature button
-        document.getElementById('confirmSignature').addEventListener('click', function() {
-            if (!signaturePad.isEmpty()) {
-                signatureDataInput.value = signaturePad.toDataURL();
-                signatureConfirmed = true;
-                updateSignatureStatus();
-                alert('Signature confirmed successfully!');
-            } else {
-                alert('Please sign first before confirming.');
-            }
-        });
-        
-        // Update signature status on end
-        signaturePad.onEnd = function() {
-            updateSignatureStatus();
-        };
-        
-        // Initial status update
+        if (signaturePad) signaturePad.off();
+        signaturePad = new SignaturePad(canvas, { backgroundColor: '#f9f9f9', penColor: 'rgb(0,0,0)' });
+        document.getElementById('clearSignature').onclick = () => { signaturePad.clear(); document.getElementById('signatureData').value = ''; signatureConfirmed = false; updateSignatureStatus(); };
+        document.getElementById('confirmSignature').onclick = () => { if (!signaturePad.isEmpty()) { document.getElementById('signatureData').value = signaturePad.toDataURL(); signatureConfirmed = true; updateSignatureStatus(); alert('Signature confirmed!'); } else alert('Please sign first.'); };
+        signaturePad.onEnd = () => updateSignatureStatus();
         updateSignatureStatus();
     }
     
     function updateSignatureStatus() {
-        const signatureDataInput = document.getElementById('signatureData');
-        const statusElement = document.getElementById('signatureStatus');
-        
-        if (!signaturePad) {
-            isSignatureSigned = false;
-            if (statusElement) {
-                statusElement.textContent = '✗ Signature system not initialized';
-                statusElement.className = 'signature-status unsigned';
-            }
-            return;
-        }
-        
-        isSignatureSigned = !signaturePad.isEmpty();
-        
-        if (statusElement) {
-            if (isSignatureSigned && signatureConfirmed) {
-                statusElement.textContent = '✓ Signature confirmed and saved';
-                statusElement.className = 'signature-status signed';
-            } else if (isSignatureSigned && !signatureConfirmed) {
-                statusElement.textContent = '✗ Signature drawn but not confirmed - click "Confirm Signature"';
-                statusElement.className = 'signature-status unsigned';
-            } else {
-                statusElement.textContent = '✗ Signature required';
-                statusElement.className = 'signature-status unsigned';
-                signatureDataInput.value = '';
-            }
-        }
+        const statusEl = document.getElementById('signatureStatus');
+        const isSigned = signaturePad && !signaturePad.isEmpty();
+        if (isSigned && signatureConfirmed) { statusEl.textContent = '✓ Signature confirmed'; statusEl.className = 'signature-status signed'; }
+        else if (isSigned && !signatureConfirmed) { statusEl.textContent = '✗ Drawn but not confirmed'; statusEl.className = 'signature-status unsigned'; }
+        else { statusEl.textContent = '✗ Signature required'; statusEl.className = 'signature-status unsigned'; }
     }
     
-    // Character counter for purpose text box
     document.getElementById('purpose').addEventListener('input', function() {
         const counter = document.getElementById('purpose-counter');
-        const length = this.value.length;
-        const maxLength = 300;
-        
-        counter.textContent = `${length}/${maxLength}`;
-        
-        // Update counter style based on remaining characters
+        counter.textContent = `${this.value.length}/300`;
         counter.classList.remove('near-limit', 'at-limit');
-        if (length > maxLength * 0.9) { // 90% of limit
-            counter.classList.add('near-limit');
-        }
-        if (length >= maxLength) {
-            counter.classList.add('at-limit');
-        }
+        if (this.value.length > 270) counter.classList.add('near-limit');
+        if (this.value.length >= 300) counter.classList.add('at-limit');
     });
     
-    // Generate PDF function with all requested features
-    function generatePDF(formData) {
-        try {
-            // Check signature data
-            if (!formData.signatureData || formData.signatureData.trim() === '') {
-                throw new Error('No signature data provided. Please sign and confirm your signature.');
-            }
-            
-            if (!signatureConfirmed) {
-                throw new Error('Signature not confirmed. Please click "Confirm Signature" button.');
-            }
-            
-            console.log('Generating PDF...');
-            
-            // Create new PDF document
-            const doc = new jsPDF();
-            const pageWidth = doc.internal.pageSize.getWidth();
-            const pageHeight = doc.internal.pageSize.getHeight();
-            let yPos = 20;
-            
-            // Load and add logo to PDF
-            loadImageForPDF(function(logoImg) {
-                // Continue PDF generation whether or not image loaded
-                try {
-                    if (logoImg && logoImg.width > 0 && logoImg.height > 0) {
-                        // Calculate dimensions for PDF
-                        const imgWidth = 25;
-                        const imgHeight = (logoImg.height * imgWidth) / logoImg.width;
-                        
-                        // Add logo to PDF (centered)
-                        doc.addImage(logoImg, 'PNG', (pageWidth - imgWidth) / 2, yPos, imgWidth, imgHeight);
-                        yPos += imgHeight + 15;
-                        console.log('Logo added to PDF successfully');
-                    }
-                } catch (error) {
-                    console.log('Could not add image to PDF:', error.message);
-                    // Continue without logo
-                }
-                
-                // Continue with PDF generation
-                continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData);
-            });
-            
-        } catch (error) {
-            console.error('Error generating PDF:', error.message);
-            alert('Error generating PDF: ' + error.message);
-        }
+    function extractAllSections() {
+        const sections = [];
+        document.querySelectorAll('.section').forEach((section, idx) => {
+            const number = section.querySelector('.section-number')?.textContent || `Section ${idx+1}`;
+            const title = section.querySelector('h2')?.textContent.replace(number, '').trim() || '';
+            const content = [];
+            section.querySelectorAll('.section-content p').forEach(p => { if(p.textContent.trim()) content.push({ text: p.textContent.trim(), indent: 0 }); });
+            sections.push({ number, title, content });
+        });
+        return sections;
     }
     
-    // Function to continue PDF generation after image is loaded (or not)
-    function continuePDFGeneration(doc, pageWidth, pageHeight, yPos, formData) {
-        // Add header
-        doc.setFontSize(20);
-        doc.setTextColor(44, 62, 80);
-        doc.text('HOLY FAMILY CATHOLIC CHURCH HALL HIRE AGREEMENT', pageWidth / 2, yPos, { align: 'center' });
+    function generatePDF(formData) {
+        if (!formData.signatureData || !signatureConfirmed) throw new Error('Valid confirmed signature required.');
+        const doc = new jsPDF();
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        let yPos = 20;
+        
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = () => {
+            const imgWidth = 25, imgHeight = (img.height * imgWidth) / img.width;
+            doc.addImage(img, 'PNG', (pageWidth - imgWidth)/2, yPos, imgWidth, imgHeight);
+            yPos += imgHeight + 15;
+            continuePDF(doc, pageWidth, pageHeight, yPos, formData);
+        };
+        img.onerror = () => continuePDF(doc, pageWidth, pageHeight, yPos, formData);
+        img.src = 'CAOS.png';
+    }
+    
+    function continuePDF(doc, pageWidth, pageHeight, yPos, formData) {
+        // Header
+        doc.setFontSize(20).setTextColor(44,62,80).text('HOLY FAMILY CATHOLIC CHURCH HALL HIRE AGREEMENT', pageWidth/2, yPos, { align: 'center' });
         yPos += 15;
-        
-        doc.setFontSize(12);
-        doc.setTextColor(52, 152, 219);
-        doc.text('PARISH PROPERTY AT HOLY FAMILY CATHOLIC CHURCH, PARKWOOD, MAIDSTONE', pageWidth / 2, yPos, { align: 'center' });
+        doc.setFontSize(12).setTextColor(52,152,219).text('PARISH PROPERTY AT HOLY FAMILY CATHOLIC CHURCH, PARKWOOD, MAIDSTONE', pageWidth/2, yPos, { align: 'center' });
         yPos += 20;
-        
-        // Add line
-        doc.setDrawColor(44, 62, 80);
-        doc.setLineWidth(0.5);
-        doc.line(20, yPos, pageWidth - 20, yPos);
+        doc.line(20, yPos, pageWidth-20, yPos);
         yPos += 10;
         
-        // Information for Hirers
-        doc.setFontSize(14);
-        doc.setTextColor(44, 62, 80);
-        doc.text('INFORMATION FOR HIRERS', 20, yPos);
+        // INFORMATION FOR HIRERS (two-column format after "Add hirer details section" in two-column)
+        doc.setFontSize(14).setTextColor(44,62,80).text('INFORMATION FOR HIRERS', 20, yPos);
         yPos += 10;
-        
-        doc.setFontSize(10);
-        doc.setTextColor(0, 0, 0);
-        
-        const infoText = [
+        doc.setFontSize(10).setTextColor(0,0,0);
+        //const infoText = ["Parish property is primarily for use in conjunction with the Church and its services...", "Hire Fees: For private bookings, a deposit of £150 is required.", "Payment: Full payment of the hire fee is due 28 days before the hire date."];
+                const infoText = [
             "Parish property is primarily for use in conjunction with the Church and its services, including baptisms,",
             "weddings, and funerals. It is available for use by groups associated with the Parish or for other purposes",
             "at the discretion of the Parish Priest.",
@@ -1312,329 +1054,124 @@
             "Payment: Full payment of the hire fee is due 28 days before the date of hire, or immediately upon",
             "signing the Hire Agreement if the hire period is less than 28 days from the booking."
         ];
-        
-        infoText.forEach(line => {
-            if (yPos > pageHeight - 20) {
-                doc.addPage();
-                yPos = 20;
-            }
-            doc.text(line, 20, yPos);
-            yPos += 6;
-        });
-        
+		infoText.forEach(line => { if(yPos > pageHeight-20) { doc.addPage(); yPos=20; } doc.text(line, 20, yPos); yPos+=6; });
         yPos += 10;
         
-        // Add hirer details section in two-column format
-        doc.setFontSize(14);
-        doc.setTextColor(44, 62, 80);
-        doc.text('HIRER DETAILS', 20, yPos);
+        // Add hirer details section in two-column format (as requested)
+        doc.setFontSize(14).setTextColor(44,62,80).text('HIRER DETAILS', 20, yPos);
         yPos += 10;
+        const colWidth = (pageWidth - 60) / 2;
+        const leftX = 20, rightX = leftX + colWidth + 20;
+        doc.setFontSize(10).setTextColor(0,0,0);
+        // Format address as: House number & street name, Locality, TOWN, POSTCODE
+        const fullAddress = `${formData.streetAddress}${formData.locality ? ', ' + formData.locality : ''}`;
+        doc.text(`Full Name: ${formData.fullName}`, leftX, yPos);
+        doc.text(`Organization: ${formData.organization || 'N/A'}`, rightX, yPos);
+        doc.text(`Email: ${formData.email}`, leftX, yPos+7);
+        doc.text(`Phone: ${formData.phone}`, rightX, yPos+7);
+        doc.text(`Address: ${fullAddress}`, leftX, yPos+14);
+		//doc.text(`TOWN: ${formData.town}`, rightX, yPos+14);
+        doc.text(`TOWN: ${formData.town}`,leftX, yPos+21 );
+        doc.text(`POSTCODE: ${formData.postcode}`, rightX, yPos+21);
+        doc.text(`Hire Date: ${formData.hireDate}`,leftX, yPos+28 );
+        doc.text(`Hire Time: ${formData.hireTimeFrom} to ${formData.hireTimeTo}`, rightX, yPos+28);
+        yPos += 35;
         
-        doc.setFontSize(10);
-        doc.setTextColor(0, 0, 0);
-        
-        // Two-column layout
-        const columnWidth = (pageWidth - 60) / 2; // 60 = left margin + middle gap + right margin
-        const leftColumnX = 20;
-        const rightColumnX = leftColumnX + columnWidth + 20;
-        
-        // Left column details
-        doc.text(`Full Name: ${formData.fullName}`, leftColumnX, yPos);
-        doc.text(`Email: ${formData.email}`, leftColumnX, yPos + 7);
-        doc.text(`Address: ${formData.address}`, leftColumnX, yPos + 14);
-        doc.text(`Hire Date: ${formData.hireDate}`, leftColumnX, yPos + 21);
-        
-        // Right column details
-        doc.text(`Organization: ${formData.organization || 'N/A'}`, rightColumnX, yPos);
-        doc.text(`Phone: ${formData.phone}`, rightColumnX, yPos + 7);
-        doc.text(`Postcode: ${formData.postcode}`, rightColumnX, yPos + 14);
-        doc.text(`Hire Time: ${formData.hireTimeFrom} to ${formData.hireTimeTo}`, rightColumnX, yPos + 21);
-        
-        yPos += 28;
-        
-        // Purpose (spans both columns)
-        const purposeText = `Purpose: ${formData.purpose}`;
-        const purposeLines = doc.splitTextToSize(purposeText, pageWidth - 40);
-        purposeLines.forEach(line => {
-            if (yPos > pageHeight - 20) {
-                doc.addPage();
-                yPos = 20;
-            }
-            doc.text(line, 20, yPos);
-            yPos += 7;
-        });
-        
-        // Attendees (spans both columns)
+        const purposeLines = doc.splitTextToSize(`Purpose: ${formData.purpose}`, pageWidth-40);
+        purposeLines.forEach(line => { if(yPos>pageHeight-20){ doc.addPage(); yPos=20; } doc.text(line, 20, yPos); yPos+=6; });
         doc.text(`Estimated Attendees: ${formData.attendees}`, 20, yPos);
-        yPos += 10;
-        
-        // Add line separator
-        doc.setDrawColor(44, 62, 80);
-        doc.setLineWidth(0.5);
-        doc.line(20, yPos, pageWidth - 20, yPos);
+        yPos += 15;
+        doc.line(20, yPos, pageWidth-20, yPos);
         yPos += 15;
         
-        // Extract and add all sections with proper clause formatting
+        // Conditions of Hire
+        doc.setFontSize(14).text('CONDITIONS OF HIRE', 20, yPos);
+        yPos += 15;
         const sections = extractAllSections();
-        
-        doc.setFontSize(14);
-        doc.setTextColor(44, 62, 80);
-        doc.text('CONDITIONS OF HIRE', 20, yPos);
-        yPos += 15;
-        
-        // Add each section to PDF with proper clause formatting
-        sections.forEach((section, index) => {
-            if (yPos > pageHeight - 30) {
-                doc.addPage();
-                yPos = 20;
-            }
-            
-            // Add section header
-            doc.setFontSize(12);
-            doc.setTextColor(44, 62, 80);
-            const sectionTitle = `${section.number} ${section.title}`;
-            doc.text(sectionTitle, 20, yPos);
+        sections.forEach((sec, idx) => {
+            if(yPos > pageHeight-30) { doc.addPage(); yPos=20; }
+            doc.setFontSize(12).setTextColor(44,62,80).text(`${sec.number} ${sec.title}`, 20, yPos);
             yPos += 8;
-            
-            // Add section content with clause formatting
-            doc.setFontSize(10);
-            doc.setTextColor(0, 0, 0);
-            
-            // Format each clause to appear on a new line with full width
-            const maxLineWidth = pageWidth - 40; // 20px margin on each side
-            
-            section.content.forEach(clause => {
-                if (yPos > pageHeight - 20) {
-                    doc.addPage();
-                    yPos = 20;
-                }
-                
-                // Clean and process the clause text
-                let clauseText = clause.text.trim();
-                
-                // Ensure each clause starts on a new line
-                if (clauseText) {
-                    // Split long clauses into multiple lines
-                    const lines = doc.splitTextToSize(clauseText, maxLineWidth);
-                    
-                    lines.forEach(line => {
-                        if (yPos > pageHeight - 20) {
-                            doc.addPage();
-                            yPos = 20;
-                        }
-                        
-                        doc.text(line, 20, yPos);
-                        yPos += 7;
-                    });
-                    
-                    // Add a small gap after each clause
-                    yPos += 3;
-                } else {
-                    // Empty line for spacing between major sections
-                    yPos += 7;
-                }
+            doc.setFontSize(10).setTextColor(0,0,0);
+            sec.content.forEach(clause => {
+                const lines = doc.splitTextToSize(clause.text, pageWidth-40);
+                lines.forEach(line => { if(yPos>pageHeight-20){ doc.addPage(); yPos=20; } doc.text(line, 20, yPos); yPos+=6; });
+                yPos += 3;
             });
-            
-            // Add more space between sections
-            yPos += 10;
-            
-            // Add a page break after every 3 sections for better readability
-            if ((index + 1) % 3 === 0 && index < sections.length - 1) {
-                doc.addPage();
-                yPos = 20;
-            }
+            yPos += 8;
+            if((idx+1)%3===0 && idx < sections.length-1) { doc.addPage(); yPos=20; }
         });
         
-        // Add signature page
+        // Signature page
         doc.addPage();
         yPos = 40;
-        
-        doc.setFontSize(16);
-        doc.setTextColor(44, 62, 80);
-        doc.text('DECLARATION AND SIGNATURE', pageWidth / 2, yPos, { align: 'center' });
+        doc.setFontSize(16).setTextColor(44,62,80).text('DECLARATION AND SIGNATURE', pageWidth/2, yPos, { align: 'center' });
         yPos += 20;
-        
         doc.setFontSize(11);
-        doc.setTextColor(0, 0, 0);
-        
-        const declarationLines = [
-            "I request the hire of the Premises on the date(s) and times and for the purpose set out above.",
-            "",
-            "Declaration on behalf of the Hirer: I have read and agree to observe and perform the provisions of this",
-            "Hire Agreement, including the terms and conditions set out in the 'Conditions of Hire'. I am over 18",
-            "years of age and duly authorised to enter into this Agreement on behalf of the Hirer.",
-            "",
-            "The Parish Priest permits the Hirer to use the Premises as set out above subject to the terms and",
-            "conditions contained in this Agreement. The Hire Agreement will not be binding until accepted and",
-            "signed by the Parish Priest. The Parish Priest may decline the request to hire the Premises at any",
-            "time at his sole discretion."
-        ];
-        
-        declarationLines.forEach(line => {
-            doc.text(line, 20, yPos);
+        const declaration = ["I request the hire of the Premises on the date(s) and times set out above.",
+            "Declaration on behalf of the Hirer: I have read and agree to observe and perform the provisions of this Hire Agreement.",
+            "I am over 18 years of age and duly authorised to enter into this Agreement on behalf of the Hirer."];
+        declaration.forEach(line => { doc.text(line, 20, yPos); yPos+=8; });
+        yPos += 20;
+        if(formData.signatureData && formData.signatureData.startsWith('data:image')) {
+            doc.text("Digital Signature of Hirer:", 20, yPos);
             yPos += 8;
-        });
-        
-        yPos += 20;
-        
-        // Add signature if available
-        if (formData.signatureData && formData.signatureData.startsWith('data:image')) {
-            try {
-                doc.text("Digital Signature of Hirer:", 20, yPos);
-                yPos += 8;
-                
-                // Calculate signature dimensions
-                const signatureWidth = 80;
-                const signatureHeight = 30;
-                doc.addImage(formData.signatureData, 'PNG', 20, yPos, signatureWidth, signatureHeight);
-                yPos += signatureHeight + 10;
-                
-                doc.text(`Signed by: ${formData.fullName}`, 20, yPos);
-                yPos += 8;
-                doc.text(`Date: ${new Date().toLocaleDateString('en-GB')}`, 20, yPos);
-                yPos += 8;
-                doc.text(`Time: ${new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}`, 20, yPos);
-                
-                console.log('Signature added to PDF successfully');
-            } catch (e) {
-                console.log("Error adding signature image:", e.message);
-                doc.text("Signed (Hirer): ___________________________", 20, yPos);
-                yPos += 8;
-                doc.text("Date: ___________________________", 20, yPos);
-            }
+            doc.addImage(formData.signatureData, 'PNG', 20, yPos, 80, 30);
+            yPos += 35;
+            doc.text(`Signed by: ${formData.fullName}`, 20, yPos);
+            yPos += 7;
+            doc.text(`Date: ${new Date().toLocaleDateString('en-GB')}`, 20, yPos);
+        } else {
+            doc.text("Signed (Hirer): ___________________________", 20, yPos);
+            yPos += 10;
+            doc.text("Date: ___________________________", 20, yPos);
         }
-        
         yPos += 20;
-        
-        // Add space for Parish Priest signature
         doc.text("For and on behalf of Holy Family Catholic Church:", 20, yPos);
         yPos += 15;
-        doc.text("Signed (Parish Priest/Authorised Representative): ___________________________", 20, yPos);
+        doc.text("Signed (Parish Priest): ___________________________", 20, yPos);
         yPos += 8;
         doc.text("Date: ___________________________", 20, yPos);
-        yPos += 8;
-        doc.text("Name: ___________________________", 20, yPos);
-        yPos += 8;
-        doc.text("Position: ___________________________", 20, yPos);
         
-        // Add footer to all pages
-        const pageCount = doc.internal.getNumberOfPages();
-        for (let i = 1; i <= pageCount; i++) {
+        for(let i=1; i<=doc.internal.getNumberOfPages(); i++) {
             doc.setPage(i);
-            doc.setFontSize(8);
-            doc.setTextColor(150, 150, 150);
-            doc.text(`Page ${i} of ${pageCount}`, pageWidth - 30, pageHeight - 10);
-            doc.text('Holy Family Church Hall Hire Agreement', 20, pageHeight - 10);
-            doc.text('Generated: ' + new Date().toLocaleDateString('en-GB'), pageWidth / 2, pageHeight - 10, { align: 'center' });
+            doc.setFontSize(8).setTextColor(150,150,150);
+            doc.text(`Page ${i} of ${doc.internal.getNumberOfPages()}`, pageWidth-30, pageHeight-10);
+            doc.text('Holy Family Church Hall Hire Agreement', 20, pageHeight-10);
         }
-        
-        // Save the PDF
-        const fileName = `Holy_Family_Church_Hall_Hire_Agreement_${formData.fullName.replace(/\s+/g, '_')}_${formData.hireDate}.pdf`;
+        const fileName = `Holy_Family_Hire_${formData.fullName.replace(/\s+/g,'_')}_${formData.hireDate}.pdf`;
         doc.save(fileName);
-        
-        console.log('PDF generated successfully:', fileName);
-        alert(`PDF generated successfully: ${fileName}\n\nPlease save this document and return it to the Parish Priest for final approval and signing.`);
+        alert(`PDF generated: ${fileName}\n\nPlease save and return to Parish Priest for final approval.`);
     }
     
-    // Form submission handler
     document.getElementById('agreementForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        
-        // Basic validation
-        const requiredFields = ['fullName', 'email', 'phone', 'address', 'postcode', 'hireDate', 'hireTimeFrom', 'hireTimeTo', 'purpose', 'attendees'];
-        for (const field of requiredFields) {
-            const element = document.getElementById(field);
-            if (!element.value.trim()) {
-                alert(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()} field.`);
-                element.focus();
-                return;
-            }
-        }
-        
-        // Check purpose length
-        const purpose = document.getElementById('purpose').value;
-        if (purpose.length > 300) {
-            alert('Purpose of hire must be 300 characters or less.');
-            document.getElementById('purpose').focus();
-            return;
-        }
-        
-        // Checkbox validation
-        if (!document.getElementById('ageConfirm').checked || !document.getElementById('termsConfirm').checked) {
-            alert('Please confirm that you are over 18 and agree to the terms.');
-            return;
-        }
-        
-        // Check signature
-        const signatureData = document.getElementById('signatureData').value;
-        
-        if (!signatureData || signatureData.trim() === '') {
-            alert('Please provide your signature by signing in the box above and clicking "Confirm Signature".');
-            document.getElementById('signatureCanvas').scrollIntoView({ behavior: 'smooth' });
-            return;
-        }
-        
-        if (!signatureConfirmed) {
-            alert('Please click "Confirm Signature" button to save your signature.');
-            return;
-        }
-        
-        // Check if signature data is valid base64 image
-        if (!signatureData.startsWith('data:image')) {
-            alert('Signature appears to be invalid. Please clear and sign again.');
-            return;
-        }
-        
-        // Collect form data
-        const formData = {
+        const required = ['fullName', 'email', 'phone', 'streetAddress', 'town', 'postcode', 'hireDate', 'hireTimeFrom', 'hireTimeTo', 'purpose', 'attendees'];
+        for(let f of required) if(!document.getElementById(f).value.trim()) { alert(`Please fill ${f.replace(/([A-Z])/g, ' $1')}.`); return; }
+        if(document.getElementById('purpose').value.length > 300) { alert('Purpose max 300 chars.'); return; }
+        if(!document.getElementById('ageConfirm').checked || !document.getElementById('termsConfirm').checked) { alert('Please confirm age and terms.'); return; }
+        const sigData = document.getElementById('signatureData').value;
+        if(!sigData || !signatureConfirmed) { alert('Please sign and confirm signature.'); return; }
+        generatePDF({
             fullName: document.getElementById('fullName').value,
-            organization: document.getElementById('organization').value || '',
+            organization: document.getElementById('organization').value,
             email: document.getElementById('email').value,
             phone: document.getElementById('phone').value,
-            address: document.getElementById('address').value,
+            streetAddress: document.getElementById('streetAddress').value,
+            locality: document.getElementById('locality').value,
+            town: document.getElementById('town').value,
             postcode: document.getElementById('postcode').value,
             hireDate: document.getElementById('hireDate').value,
             hireTimeFrom: document.getElementById('hireTimeFrom').value,
             hireTimeTo: document.getElementById('hireTimeTo').value,
-            purpose: purpose,
+            purpose: document.getElementById('purpose').value,
             attendees: document.getElementById('attendees').value,
-            signatureData: signatureData
-        };
-        
-        console.log('Form data collected, generating PDF...');
-        generatePDF(formData);
+            signatureData: sigData
+        });
     });
     
-    // Initialize total sections count
     document.getElementById('total-sections').textContent = totalSections;
-    
-    // Initialize on page load
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize purpose counter
-        const purposeField = document.getElementById('purpose');
-        const counter = document.getElementById('purpose-counter');
-        if (purposeField && counter) {
-            counter.textContent = `${purposeField.value.length}/300`;
-        }
-        
-        // Set minimum date for hire date to today
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('hireDate').min = today;
-        
-        // Check if image loads
-        const img = document.getElementById('church-logo');
-        if (img) {
-            img.onload = function() {
-                console.log('Logo image loaded successfully');
-            };
-            
-            img.onerror = function() {
-                console.log('Logo image failed to load, trying alternative path');
-                this.src = './CAOS.png';
-            };
-        }
-    });
+    document.getElementById('hireDate').min = new Date().toISOString().split('T')[0];
 </script>
-
 </body>
 </html>
